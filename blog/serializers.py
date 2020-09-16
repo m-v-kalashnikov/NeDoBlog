@@ -5,6 +5,7 @@ from taggit_serializer.serializers import TaggitSerializer, TagListSerializerFie
 from .models import Post
 
 
+# TODO: move to models
 class NewTagListSerializerField(TagListSerializerField):
     def to_internal_value(self, value):
         if isinstance(value, string_types):

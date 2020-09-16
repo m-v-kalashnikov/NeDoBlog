@@ -36,8 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
-    'drfpasswordless',
     'tinymce',
     'taggit',
     'taggit_serializer',
@@ -102,17 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES':
-        ('rest_framework.authentication.TokenAuthentication',
-         )
-}
-
-PASSWORDLESS_AUTH = {
-    'PASSWORDLESS_AUTH_TYPES': ['EMAIL'],
-    'PASSWORDLESS_EMAIL_NOREPLY_ADDRESS': 'noreply@example.com',
-}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

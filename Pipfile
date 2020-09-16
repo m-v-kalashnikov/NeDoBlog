@@ -1,0 +1,25 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+drfpasswordless = "*"
+gunicorn = "*"
+django-cors-headers = "*"
+pillow = "*"
+googletrans = "*"
+django-tinymce = "*"
+django-taggit = "*"
+django-taggit-serializer = "*"
+six = "*"
+
+[requires]
+python_version = "3.8"

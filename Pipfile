@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
+q = "*"
 
 [packages]
 django = "*"
@@ -19,6 +20,7 @@ django-tinymce = "*"
 django-taggit = "*"
 django-taggit-serializer = "*"
 six = "*"
+bcrypt = "*"
 
 [requires]
 python_version = "3.8"

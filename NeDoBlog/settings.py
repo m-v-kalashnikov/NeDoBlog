@@ -35,15 +35,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'tinymce',
     'taggit',
     'taggit_serializer',
 
+    'magic_auth.apps.MagicAuthConfig',
     'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -103,12 +106,46 @@ AUTH_PASSWORD_VALIDATORS = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+DEFAULTS = {
+    # URLS for creating links, dict key corresponds to `source` when requesting link
+    'MAGIC_LINKS_URLS': {
+        'default': 'http://localhost:8000/auth/',
+        'ios': 'myapp://login/',
+    },
+
+    # Amount of time that tokens last, in seconds
+    'MAGIC_LINKS_EXPIRE_TIME': 60 * 60,
+
+    # Registers previously unseen aliases as new users.
+    'MAGIC_LINKS_CREATE_USER': True,
+
+    # The user's email field name
+    'MAGIC_LINKS_USER_EMAIL_FIELD_NAME': 'email',
+
+    # The email the callback token is sent from
+    'MAGIC_LINKS_EMAIL_FROM_ADDRESS': 'from@example.com',
+
+    # The email subject
+    'MAGIC_LINKS_EMAIL_SUBJECT': "Your Magic Link",
+
+    # A plaintext email message overridden by the html message. Takes one string.
+    'MAGIC_LINKS_EMAIL_PLAINTEXT_MESSAGE': "Follow this link to sign in: {link}",
+
+    # The email template name.
+    'MAGIC_LINKS_EMAIL_HTML_TEMPLATE_NAME': 'magic_link_email.html',
+
+    # Context Processors for Email Template
+    'MAGIC_LINKS_CONTEXT_PROCESSORS': [],
+}
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 

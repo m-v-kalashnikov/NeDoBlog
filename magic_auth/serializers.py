@@ -8,5 +8,4 @@ class MagicLinkEmailSerializer(serializers.Serializer):
 
 
 class MagicLinkTokenSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    token = serializers.CharField()
+    payload = serializers.CharField()

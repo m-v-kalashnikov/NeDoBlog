@@ -15,7 +15,7 @@ from .utils import (get_user_for_email,
                     inject_template_context,
                     check_hashed_key,
                     check_credential_expiry,
-                    authenticate_user)
+                    authenticate_user, get_data_from_payload)
 
 logger = logging.getLogger(__name__)
 
@@ -54,8 +54,6 @@ def email_link(user,
             logger.debug(e)
             return False
 
-        return success
-
     return logger.debug("Could not generate link.")
 
 
@@ -70,41 +68,34 @@ def send_magic_link(email, request_source='default', go_next=None):
 
     success = email_link(user, request_source, go_next=go_next)
 
-    email_link(user, request_source, go_next=go_next)
-
     if not success:
         raise MagicLinkException
 
     return True
 
 
-def validate_credential(email, callback_token):
+def validate_credential(callback_payload):
     try:
-        credential = MagicLinkCredential.objects.get(user__email=email, is_active=True)
-
+        credential = MagicLinkCredential.objects.get(user__email=get_data_from_payload('email', callback_payload),
+                                                     is_active=True)
 
         if check_credential_expiry(credential):
-            import q
-            q('truuuuuu')
-            valid = check_hashed_key(str(credential.key), callback_token)
+            valid = check_hashed_key(str(credential.key), callback_payload)
             if valid:
-                import q
-                q("sdsdsd")
                 credential.is_active = False
                 credential.save()
                 return credential
             return None
         else:
-            import q
-            q('error')
+
             return None
 
     except MagicLinkCredential.DoesNotExist:
         return None
 
 
-def get_user_from_callback_token(email, callback_token):
-    credential = validate_credential(email, callback_token)
+def get_user_from_callback_token(callback_payload):
+    credential = validate_credential(callback_payload)
 
     if not credential:
         raise InvalidKeyException
@@ -117,8 +108,8 @@ def get_user_from_callback_token(email, callback_token):
     return user
 
 
-def authenticate_token(email, callback_token):
-    user = get_user_from_callback_token(email, callback_token)
+def authenticate_token(callback_payload):
+    user = get_user_from_callback_token(callback_payload)
     token = authenticate_user(user)
 
     if not token:

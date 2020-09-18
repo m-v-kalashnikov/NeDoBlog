@@ -26,8 +26,7 @@ def get_user_for_email(email):
 
     return user
 
-import q
-@q
+
 def get_hashed_key(plain_text_key):
     return bcrypt.hashpw(plain_text_key.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
@@ -79,10 +78,17 @@ def check_credential_expiry(credential):
     return False
 
 
-import q
-@q
-def check_hashed_key(plain_text_key, hashed_key):
-    return bcrypt.checkpw(plain_text_key.encode('utf-8'), hashed_key.encode('utf-8'))
+def get_data_from_payload(key: str, payload):
+    """
+    :param key: which you want to get
+    :param payload: data where it is hidden
+    :return: data from payload
+    """
+    return urllib.parse.parse_qs(payload)[key][0]
+
+
+def check_hashed_key(plain_text_key, hashed_payload):
+    return bcrypt.checkpw(plain_text_key.encode('utf-8'), get_data_from_payload('token', hashed_payload).encode('utf-8'))
 
 
 def authenticate_user(user):

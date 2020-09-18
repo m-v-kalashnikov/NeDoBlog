@@ -39,20 +39,15 @@ class AuthenticateToken(APIView):
     permission_classes = (AllowAny,)
     serializer_class = MagicLinkTokenSerializer
 
-
-
     def post(self, request, *args, **kwargs):
 
         serializer = self.serializer_class(data=request.data)
-        import q
-        q(request.data)
 
         if serializer.is_valid():
 
             try:
                 token = authenticate_token(
-                    email=serializer.validated_data['email'],
-                    callback_token=serializer.validated_data['token']
+                    callback_payload=serializer.validated_data['payload']
                 )
 
             except Exception as e:
